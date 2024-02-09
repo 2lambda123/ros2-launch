@@ -18,11 +18,11 @@ import io
 from typing import Set
 from typing import Text
 from typing import Union
-import xml.etree.ElementTree as ET
 
 from launch import frontend
 
 from .entity import Entity
+import defusedxml.ElementTree
 
 
 class Parser(frontend.Parser):
@@ -34,7 +34,7 @@ class Parser(frontend.Parser):
         file: Union[str, io.TextIOBase],
     ) -> (Entity, 'Parser'):
         """Return entity loaded from XML file."""
-        return (Entity(ET.parse(file).getroot()), cls())
+        return (Entity(defusedxml.ElementTree.parse(file).getroot()), cls())
 
     @classmethod
     def get_file_extensions(cls) -> Set[Text]:
