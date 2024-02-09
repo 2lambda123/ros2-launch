@@ -16,7 +16,6 @@ import os
 import subprocess
 import tempfile
 import unittest
-import xml.etree.ElementTree as ET
 
 import ament_index_python
 from launch_testing.junitxml import unittestResultsToXml
@@ -24,6 +23,7 @@ from launch_testing.test_result import FailResult
 from launch_testing.test_result import SkipResult
 from launch_testing.test_result import TestResult as TR
 import pytest
+import defusedxml.ElementTree
 
 
 class TestGoodXmlOutput(unittest.TestCase):
@@ -56,7 +56,7 @@ class TestGoodXmlOutput(unittest.TestCase):
         cls.tmpdir.cleanup()
 
     def test_pre_and_post(self):
-        tree = ET.parse(self.xml_file)
+        tree = defusedxml.ElementTree.parse(self.xml_file)
         root = tree.getroot()
 
         self.assertEqual(len(root), 1)
